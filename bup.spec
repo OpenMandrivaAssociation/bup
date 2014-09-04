@@ -6,7 +6,12 @@ License:	GPLv2+
 Group:		Archiving/Backup
 Url:		https://github.com/bup/bup
 Source0:	https://github.com/bup/bup/archive/%{name}-%{version}.tar.gz
+BuildRequires:	git
+BuildRequires:	python-fuse
+BuildRequires:	python-pylibacl
+BuildRequires:	python-xattr
 BuildRequires:	pkgconfig(python)
+Requires:	git
 Requires:	python-fuse
 Requires:	python-pylibacl
 Requires:	python-xattr
