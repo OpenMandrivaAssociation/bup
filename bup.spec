@@ -1,7 +1,7 @@
 Summary:	Efficient backup system based on the git packfile format
 Name:		bup
 Version:	0.26
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Archiving/Backup
 Url:		https://github.com/bup/bup
