@@ -1,44 +1,76 @@
-Summary:	Efficient backup system based on the git packfile format
+# disable tests on abf
+# some tests need remote access
+%bcond_with test
+
 Name:		bup
-Version:	0.26
-Release:	2
-License:	GPLv2+
+Version:	0.33.7
+Release:	1
+Summary:	Efficient backup system based on the git packfile format
+License:	LGPL-2.0-only
 Group:		Archiving/Backup
-Url:		https://github.com/bup/bup
-Source0:	https://github.com/bup/bup/archive/%{name}-%{version}.tar.gz
+URL:		https://bup.github.io/
+Source0:	https://github.com/bup/bup/archive/%{version}/%{name}-%{version}.tar.gz
+
+BuildRequires:	python
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	git
-BuildRequires:	python-fuse
-BuildRequires:	python-pylibacl
-BuildRequires:	python-xattr
-BuildRequires:	pkgconfig(python)
+BuildRequires:	perl-Getopt-Long
+BuildRequires:	perl-Pod-Usage
+BuildRequires:	perl-Time-HiRes
+BuildRequires:	python%{pyver}dist(fuse-python)
+BuildRequires:	python%{pyver}dist(pylibacl)
+BuildRequires:	python%{pyver}dist(pyxattr)
+BuildRequires:	python%{pyver}dist(tornado)
+%if %{with test}
+BuildRequires:	python%{pyver}dist(pylint)
+BuildRequires:	python%{pyver}dist(pytest)
+BuildRequires:	python%{pyver}dist(pytest-xdist)
+BuildRequires:	parchive2
+BuildRequires:	rsync
+%endif
 Requires:	git
-Requires:	python-fuse
-Requires:	python-pylibacl
-Requires:	python-xattr
+Requires:	parchive2
+Requires:	python%{pyver}dist(fuse-python)
+Requires:	python%{pyver}dist(pylibacl)
+Requires:	python%{pyver}dist(pyxattr)
 
 %description
 Bup is a very efficient backup system based on the git packfile format,
 providing fast incremental saves and global deduplication (among and
 within files, including virtual machine images).
 
-%files
-%{_bindir}/%{name}
-# this path seems to be hardcoded so using _libdir requires testing,
-# just leave it like that for now
-%{_prefix}/lib/%{name}
-
-#----------------------------------------------------------------------------
 
 %prep
-%setup -q
+%autosetup -n %{name}-%{version} -p1
+# fix binpath
+sed -i -e "s|PREFIX=/usr/local|PREFIX=%{_prefix}|g" GNUmakefile
+# fix docpath
+sed -i -e "s|/share/doc/bup|/share/doc/packages/bup|g" GNUmakefile
+# fix env-script-interpreter
+sed -i -e "s|\/usr\/bin\/env bash|\/bin\/bash|g" lib/cmd/bup-import-rdiff-backup
+# rpmlint
+find -type f -name ".gitignore" -exec rm {} \;
+
+# NOTE removed problematic gc test
+# NOTE check upstream if this test is fixed on next release
+rm -f test/ext/test-gc-removes-incomplete-trees
 
 %build
 ./configure
-%make
+%make_build CFLAGS="%optflags"
 
 %install
-%makeinstall_std
+%make_install
 
+%if %{with test}
 %check
-# Tests are quite long, don't enable them for ABF
-# make check
+make check
+%endif
+
+%files
+%{_bindir}/%{name}
+%{_prefix}/lib/%{name}/%{name}
+%{_prefix}/lib/%{name}/cmd
+%{_prefix}/lib/%{name}/web
+%doc README.md
+%license LICENSE
