@@ -1,9 +1,9 @@
 # disable tests on abf
-# some tests need remote access
+# some tests require remote access
 %bcond_with test
 
 Name:		bup
-Version:	0.33.7
+Version:	0.33.9
 Release:	1
 Summary:	Efficient backup system based on the git packfile format
 License:	LGPL-2.0-only
@@ -64,6 +64,8 @@ rm -f test/ext/test-gc-removes-incomplete-trees
 
 %if %{with test}
 %check
+export CI=true
+export PYTHONPATH="%{buildroot}%{python_sitearch}:${PWD}"
 make check
 %endif
 
