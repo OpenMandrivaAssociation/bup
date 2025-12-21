@@ -11,6 +11,11 @@ Group:		Archiving/Backup
 URL:		https://bup.github.io/
 Source0:	https://github.com/bup/bup/archive/%{version}/%{name}-%{version}.tar.gz
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	python
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	git
