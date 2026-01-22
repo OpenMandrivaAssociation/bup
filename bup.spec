@@ -14,6 +14,7 @@ Source0:	https://github.com/bup/bup/archive/%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	python
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	git
+BuildRequires:	make
 BuildRequires:	perl-Getopt-Long
 BuildRequires:	perl-Pod-Usage
 BuildRequires:	perl-Time-HiRes
