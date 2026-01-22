@@ -1,21 +1,16 @@
 # disable tests on abf
 # some tests require remote access
-%bcond_with test
+%bcond test 0
 
 Name:		bup
 Version:	0.33.9
-Release:	1
+Release:	2
 Summary:	Efficient backup system based on the git packfile format
 License:	LGPL-2.0-only
 Group:		Archiving/Backup
 URL:		https://bup.github.io/
 Source0:	https://github.com/bup/bup/archive/%{version}/%{name}-%{version}.tar.gz
 
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	libtool-base
-BuildRequires:	slibtool
-BuildRequires:	make
 BuildRequires:	python
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	git
@@ -61,6 +56,7 @@ find -type f -name ".gitignore" -exec rm {} \;
 rm -f test/ext/test-gc-removes-incomplete-trees
 
 %build
+export LDFLAGS="%{ldflags} -lpython%{pyver}"
 ./configure
 %make_build CFLAGS="%optflags"
 
