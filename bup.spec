@@ -3,8 +3,8 @@
 %bcond test 0
 
 Name:		bup
-Version:	0.33.9
-Release:	2
+Version:	0.33.10
+Release:	1
 Summary:	Efficient backup system based on the git packfile format
 License:	LGPL-2.0-only
 Group:		Archiving/Backup
@@ -34,6 +34,7 @@ Requires:	parchive2
 Requires:	python%{pyver}dist(fuse-python)
 Requires:	python%{pyver}dist(pylibacl)
 Requires:	python%{pyver}dist(pyxattr)
+Requires:	python%{pyver}dist(tornado)
 
 %description
 Bup is a very efficient backup system based on the git packfile format,
