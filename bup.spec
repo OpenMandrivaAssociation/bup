@@ -4,7 +4,7 @@
 
 Name:		bup
 Version:	0.33.10
-Release:	1
+Release:	2
 Summary:	Efficient backup system based on the git packfile format
 License:	LGPL-2.0-only
 Group:		Archiving/Backup
